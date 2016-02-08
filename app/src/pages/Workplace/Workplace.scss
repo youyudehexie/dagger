@@ -1,0 +1,56 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.wp {
+    @include flex(1);
+    @include display-flex;
+}
+
+.timeline {
+    width: 240px;
+    overflow-y:auto;
+}
+
+.ct {
+    @include flex(1);
+}
+
+.ct__title {
+    font-size: 24px;
+    font-weight: 900;
+    height: 128px;
+    line-height: 128px;
+    width: 100%;
+    color: $text-primary-color;
+    background: $default-primary-color;
+}
+
+.ct__wrap {
+    overflow-y:auto;
+    height: 100%;
+}
+
+
+.pt__item {
+    margin: 8px;
+}
+
+.sidebar {
+    background-color: $default-primary-color;
+    color: $text-primary-color;
+    width: 56px;
+}
+
+.sidebar__lt {
+    padding-top: 56px;
+}
+
+.sidebar__session {
+    padding: 8px 0;
+}
+
+.sidebar__session .active {
+    background-color: $default-primary-color;
+}
+
+

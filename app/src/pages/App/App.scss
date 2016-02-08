@@ -1,0 +1,18 @@
+@import "compass/css3";
+@import '../../styles/variables';
+
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: $primary-text-color;
+    font-family: 'Roboto', 'Noto',sans-serif;
+}
+
+.container {
+}
+
+.hidden {
+    display: none;
+}
+

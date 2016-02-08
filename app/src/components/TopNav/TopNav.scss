@@ -1,0 +1,49 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.topnav {
+    position: fixed;
+    -webkit-app-region: drag;
+    @include user-select(none);
+    z-index: 99;
+    height: 48px;
+    overflow: hidden;
+    width: 100%;
+    font-size: 20px;
+    line-height: 48px;
+    text-align: center;
+    cursor: default;
+    background-color: $default-primary-color;
+    color: $text-primary-color;
+}
+
+.topnav__items {
+    position: absolute;
+    left: 5px;
+}
+
+.topnav__item {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin: 0 4px;
+    @include border-radius(16px);
+}
+
+.topnav__close {
+    background-color: #FC5753;
+}
+
+.topnav__min {
+    background-color: #FDBC40;
+}
+
+.topnav__min {
+    background-color: #FDBC40;
+}
+
+.topnav__max {
+    background-color: #30C45A;
+}
+
+

@@ -1,0 +1,12 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.home {
+    @include display-flex;
+    @include flex-direction(column);
+    @include justify-content(center);
+}
+
+.home__pj {
+    margin-top: 72px;
+}

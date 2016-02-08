@@ -1,0 +1,32 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.wt {
+    @include display-flex;
+    @include flex(1);
+}
+
+.wt__title {
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.wt__main {
+    @include flex(1);
+    border-right: 1px solid black;
+}
+
+.wt__review {
+    @include flex(1);
+}
+
+.wt__editor {
+    padding: 16px;
+}
+
+.wt__function {
+    height: 48px;
+    background-color: #eeeeee;
+}
+

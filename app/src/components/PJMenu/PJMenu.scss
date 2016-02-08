@@ -1,0 +1,16 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.pj__menu {
+    position: fixed;
+    z-index: 99;
+    margin-top: 56px;
+    padding: 0 16px;
+}
+
+.pj__create {
+    @include display-flex;
+    @include align-items(center);
+    @include flex-direction(column);
+}
+

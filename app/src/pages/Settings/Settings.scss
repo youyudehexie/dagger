@@ -1,0 +1,17 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.settings {
+    @include flex(1);
+    padding: 32px;
+}
+.settings__section {
+    margin: 8px;
+
+}
+.settings__header {
+    font-size: 34px;
+}
+
+.settings__form {
+}
