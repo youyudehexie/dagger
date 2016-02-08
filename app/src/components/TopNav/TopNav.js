@@ -31,9 +31,9 @@ export default class TopNav extends Component {
         return (
         <div className="topnav">
             <div className="topnav__items">
-            <div className="topnav__item topnav__close" onClick={this.handleClose}></div>
-            <div className="topnav__item topnav__min" onClick={this.handleMinimize}></div>
-            <div className="topnav__item topnav__max" onClick={this.handleMaximize}></div>
+                <div className="topnav__item topnav__close" onClick={this.handleClose}></div>
+                <div className="topnav__item topnav__min" onClick={this.handleMinimize}></div>
+                <div className="topnav__item topnav__max" onClick={this.handleMaximize}></div>
             </div>
             <div className="topnav__title">Dagger</div>
         </div>

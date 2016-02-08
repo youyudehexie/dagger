@@ -170,7 +170,7 @@ export default class TopNav extends Component {
                         {
                             this.state.createForms.map((form, idx) => {
                                 return (
-                                <div>
+                                <div key={this.state.forms[form].key}>
                                     <TextField {...this.state.forms[form]} />
                                     <br/>
                                 </div>
