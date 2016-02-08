@@ -118,6 +118,9 @@ describe('Project', function () {
         it('should success', function (done) {
             pj.createRepo()
             .then(function () {
+                return Promise.resolve();
+            })
+            .then(function () {
                 return pj.clean();
             })
             .then(function () {

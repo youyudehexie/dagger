@@ -30,6 +30,28 @@ import Project from '../../lib/Project';
 
 import './Home.scss';
 
+class ListProgress extends Component {
+
+    render() {
+        const { max, value } = this.props;
+        const progress = (value/max);
+        const width = `${progress.toFixed(2)*100}%`
+        const style = {
+            width,
+            opacity: max == value ? 0 : 0.75
+        }
+
+        return <div className="pj__progress" style={style} ></div>
+    }
+
+}
+
+ListProgress.propTypes = {
+  max: PropTypes.number,
+  value: PropTypes.number,
+}
+
+
 export default class Home extends Component {
     constructor(props) {
     super(props);
@@ -54,10 +76,7 @@ export default class Home extends Component {
 
 
   handleNewProject = (project) => {
-      const email = 'sosofullmoon@vip.qq.com';
-      const password = 'youyudehexie123';
-      const repo = 'fennudehexie.github.io';
-      const path = '/Users/zhenfu/sandbox/hexo'
+      const {email, password, repo, path } = project;
       return this.props.projectActions.createProject(email, password, repo, path);
   };
 
@@ -67,6 +86,8 @@ export default class Home extends Component {
   };
 
   render() {
+    const { Projects } = this.props;
+    console.log(Projects);
 
     return (
       <div className="home">
@@ -74,62 +95,24 @@ export default class Home extends Component {
         <PJMenu onNewProject={this.handleNewProject} onCreateCheck={this.handleCreateCheck}/>
         <div className="home__pj">
             <List insetSubheader={true}>
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Photos"
-                secondaryText="Jan 9, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Recipes"
-                secondaryText="Jan 17, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Work"
-                secondaryText="Jan 28, 2014"
-            />
+            {
+                Projects.map((project) => {
+                    return (
+                    <div className="pj__item" key={project.id}>
+                        <ListProgress 
+                            max={project.flow.max} 
+                            value={project.flow.value}
+                        />
 
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Photos"
-                secondaryText="Jan 9, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Recipes"
-                secondaryText="Jan 17, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Work"
-                secondaryText="Jan 28, 2014"
-            />
-
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Photos"
-                secondaryText="Jan 9, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Recipes"
-                secondaryText="Jan 17, 2014"
-            />
-            <ListItem
-                leftAvatar={<Avatar icon={<FileFolder />} />}
-                rightIcon={<ActionInfo />}
-                primaryText="Work"
-                secondaryText="Jan 28, 2014"
-            />
+                        <ListItem
+                            leftAvatar={<Avatar icon={<FileFolder />} />}
+                            rightIcon={<ActionInfo />}
+                            primaryText={project.account.repo}
+                        />
+                    </div>
+                    )
+                })
+            }
             </List>
         </div>
       </div>

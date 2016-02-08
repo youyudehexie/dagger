@@ -14,3 +14,26 @@
     @include flex-direction(column);
 }
 
+.pj__group {
+    overflow-y: scroll;
+    @include display-flex;
+    height: 300px;
+}
+
+.pj__input {
+    @include flex(1);
+}
+.pj__icon {
+    width: 56px;
+}
+
+.pj__section {
+    position: relative;
+}
+
+
+.pj__tips {
+    color: $secondary-text-color;
+    margin-top: 16px;
+}
+

@@ -7,7 +7,9 @@ var Path = NativeRequire('path');
 var exec = NativeRequire('child_process').exec;
 var fs = NativeRequire('fs');
 var YAML = NativeRequire('yamljs');
-var JSONTOYAML = require('json2yaml')
+var JSONTOYAML = NativeRequire('json2yaml')
+
+var md5 = NativeRequire('md5');
 
 
 var Project = function (email, password, repo, target) {
@@ -16,6 +18,7 @@ var Project = function (email, password, repo, target) {
     this.password = password;
     this.repo = repo;
     this.target = target;
+
     this.owner = {};
     this.settings = {};
     this.npmArgs = ['--registry=https://registry.npm.taobao.org', 
@@ -45,6 +48,7 @@ Project.prototype = {
             self.github.user.get({}, function (err, response) {
                 if (err) return reject(err);
                 self.username = response.login;
+                self.id = md5([self.username, self.repo].join(':'));
                 return resolve(response);
             });
         });
@@ -69,14 +73,6 @@ Project.prototype = {
             Promise.resolve();
         });
 
-        //return self.dropRepo(self.repo, self.username)
-        //.then(function () {
-            //return new Promise(function (resolve, reject) {
-                //exec(`rm -rf ${path}*`, function () {
-                    //resolve();
-                //});
-            //});
-        //});
     },
 
     // 1.folder
@@ -167,7 +163,6 @@ Project.prototype = {
 
     genTpl: function (target) {
         var self = this;
-        //var cmdPath = Path.join(process.cwd(), './node_modules/hexo/bin/hexo');
         var cmdPath = 'hexo';
         var originRepo = `https://${self.username}:${self.password}@github.com/${self.username}/${self.repo}.git`;
 
@@ -212,10 +207,6 @@ Project.prototype = {
         var username = username || self.username;
         var repo = repo || self.repo;
 
-        console.log('kule')
-        console.log(username, repo)
-        console.log('kule')
-
         return new Promise(function (resolve, reject) {
             self.github.repos.delete({
                 user: username,
@@ -231,7 +222,6 @@ Project.prototype = {
         var self = this;
         var cmdPath = 'hexo';
 
-        //var cmdPath = Path.join(process.cwd(), './node_modules/hexo/bin/hexo');
         return new Promise(function (resolve, reject) {
             exec(`${cmdPath} deploy`, {cwd: self.baseDir}, function (err, stdout, stderr) {
                 console.log(stdout)

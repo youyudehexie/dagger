@@ -1,5 +1,8 @@
 import Project from '../lib/Project';
 import * as ActionType from '../constants/action';
+import { normalize } from 'normalizr';
+import { Schemas } from '../constants/schema';
+
 
 export function createProject(email, password, repo, target) {
     return (dispatch, getState) => {
@@ -7,27 +10,47 @@ export function createProject(email, password, repo, target) {
             const pj = new Project(email, password, repo, target);
             const flows = ['genTpl', 'installDep', 'installDeployGit'];
             const max = flows.length;
-            for (let i = 0; i < flows.length; i++) {
-                dispatch({
-                    type: ActionType.PROGRESS,
-                    name: flows[i],
+            let project = {};
+
+            await pj.init();
+
+            project = {
+                id: pj.id,
+                pj,
+                flow: {
+                    name: 'started',
                     max,
-                    value: i+1,
-                });
-
-                await pj[flows[i]]();
-            }
-
-            dispatch({
-                type: ActionType.CREATE_PROJECT,
+                    value: 0,
+                },
                 account: {
                     email,
                     password,
                     repo,
                     target
                 },
-                pj,
+            };
+
+            dispatch({
+                type: ActionType.CREATE_PROJECT,
+                response: normalize(project, Schemas.PROJECT),
             });
+
+            for (let i = 0; i < flows.length; i++) {
+                project = {
+                    id: pj.id,
+                    flow: {
+                        name: flows[i],
+                        max,
+                        value: i+1,
+                    }
+                };
+
+                await pj[flows[i]]();
+                dispatch({
+                    type: ActionType.PROGRESS,
+                    response: normalize(project, Schemas.PROJECT),
+                });
+            }
         }
 
         return process();
@@ -37,9 +60,6 @@ export function createProject(email, password, repo, target) {
 
 export function checkCreateEnv(email, password, repo, target) {
     return (dispatch, getState) => {
-        console.log('-------------')
-        console.log(email, password, repo, target);
-        console.log('-------------')
         let pj;
         try {
             pj = new Project(email, password, repo, target);
