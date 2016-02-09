@@ -80,14 +80,6 @@ export default class Home extends Component {
   };
 
   handleClick = (id) => {
-
-      //browserHistory.push('/')
-      //console.log(this.props.router)
-      //const { pushState } = this.props.history;
-      //console.log(this.context.pushState)
-      //this.context.history.pushState(null, '/')
-      //this.context.history.pushState(null, `/workplace/${id}`)
-
       var win = new BrowserWindow({ 
           width: 800, 
           height: 600,

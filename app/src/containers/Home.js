@@ -11,11 +11,7 @@ function mapStateToProps(state) {
 
     let Projects = projects.ids.map((project) => {
         return entities.projects[project];
-    })
-
-    console.log('hahah')
-    console.log(Projects);
-    console.log('hahah')
+    });
 
     return {
         Projects

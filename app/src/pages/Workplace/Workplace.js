@@ -26,20 +26,24 @@ import Editor from '../../components/Editor/Editor';
 
 export default class Workplace extends Component {
 
-  render() {
+    componentWillMount() {
+        const { id } = this.props.params;
+    }
 
-    const { id } = this.props.params;
+    render() {
 
-    return (
-        <div className="wp">
-          <TopNav />
-          <div className="main">
-            <Sidebar projectId={id}/>
-            <Timeline />
-            <Editor />
-          </div>
-        </div>
-    );
-  }
+        const { id } = this.props.params;
+
+        return (
+            <div className="wp">
+            <TopNav />
+            <div className="main">
+                <Sidebar projectId={id}/>
+                <Timeline />
+                <Editor />
+            </div>
+            </div>
+        );
+    }
 } 
 
