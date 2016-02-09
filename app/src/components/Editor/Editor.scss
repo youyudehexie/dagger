@@ -1,0 +1,41 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.editor {
+    @include flex(1);
+    @include display-flex;
+    @include flex-direction(column);
+}
+
+.editor__title {
+    padding: 16px;
+    color: $primary-text-color;
+    font-size: 24px;
+    font-weight: 900;
+    border:0;
+    outline:none;
+}
+
+.editor__toolbar {
+    background-color: $color-grey-200;
+    padding: 16px;
+    width: 100%;
+}
+
+
+.editor__box {
+    @include flex(1);
+    color: $primary-text-color;
+    font-family: 'Roboto', 'Noto',sans-serif;
+    margin-bottom: 56px;
+    padding: 16px 8px 16px 16px;
+    line-height: 16*1.5px;
+    outline: 0; 
+    font-size: 16px; 
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-user-modify: read-write-plaintext-only;
+}
+
+

@@ -10,6 +10,10 @@ import createEngine from 'redux-storage/engines/localStorage';
 const engine = createEngine('dagger');
 
 import './styles/base.scss';
+let jsonState = JSON.parse(window.localStorage.getItem('dagger'));
+delete jsonState.routing;
+window.localStorage.setItem('dagger', JSON.stringify(jsonState));
+
 
 const load = storage.createLoader(engine);
 

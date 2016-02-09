@@ -1,0 +1,34 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.timeline {
+    width: 240px;
+    overflow-y: auto;
+    border-right: 1px solid $color-grey-200;
+    background-color: $color-grey-50;
+}
+
+.te__item {
+    padding: 24px 16px;
+    background-color: white;
+}
+
+.te__item:hover {
+    background-color: $color-blue-50; 
+    cursor: pointer;
+}
+
+.te__item__active {
+    background-color: $color-blue-100;
+}
+
+.te__title {
+    color: $primary-text-color;
+    font-size: 16px;
+    line-height: 16*1.5px;
+}
+
+.te__subtitle {
+    font-size: 14px;
+    color: $secondary-text-color;
+}

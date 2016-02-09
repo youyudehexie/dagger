@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router'
+
 
 import List from 'material-ui/lib/lists/list'; import ListItem from 'material-ui/lib/lists/list-item';
 import ActionInfo from 'material-ui/lib/svg-icons/action/info';
@@ -32,9 +34,8 @@ import './Home.scss';
 
 import NativeRequire from '../../lib/NativeRequire';
 
+
 const BrowserWindow = NativeRequire('electron').BrowserWindow;
-console.log(BrowserWindow)
-//const BrowserWindow = remote.BrowserWindow;
 
 class ListProgress extends Component {
 
@@ -68,14 +69,6 @@ export default class Home extends Component {
     };
   }
 
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
   handleNewProject = (project) => {
       const {email, password, repo, path } = project;
       return this.props.projectActions.createProject(email, password, repo, path);
@@ -87,7 +80,21 @@ export default class Home extends Component {
   };
 
   handleClick = (id) => {
-      var win = new BrowserWindow({ width: 800, height: 600 });
+
+      //browserHistory.push('/')
+      //console.log(this.props.router)
+      //const { pushState } = this.props.history;
+      //console.log(this.context.pushState)
+      //this.context.history.pushState(null, '/')
+      //this.context.history.pushState(null, `/workplace/${id}`)
+
+      var win = new BrowserWindow({ 
+          width: 800, 
+          height: 600,
+          frame: false,
+         title: 'Dagger',
+      });
+
       win.loadURL(`http://127.0.0.1:9090/workplace/${id}`);
   };
 

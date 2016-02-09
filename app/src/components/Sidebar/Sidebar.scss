@@ -1,0 +1,20 @@
+@import 'compass/css3';
+@import '../../styles/variables';
+
+.sidebar {
+    color: $text-primary-color;
+    border-right: 1px solid $color-grey-200;
+    width: 56px;
+}
+
+.sidebar__item_active {
+    border-left: 3px solid $default-primary-color;
+    background-color: $color-blue-50;
+}
+
+.sidebar__item {
+    display: block;
+    cursor: pointer;
+    padding: 16px 0;
+    text-align: center;
+}

@@ -5,94 +5,67 @@ import RadioButtonGroup from 'material-ui/lib/radio-button-group';
 import Toggle from 'material-ui/lib/toggle';
 import RaisedButton from 'material-ui/lib/raised-button';
 
+import Colors from 'material-ui/lib/styles/colors';
+import Theme from '../../theme';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+
+
 
 import './Settings.scss';
 
-export default class Writer extends Component {
-  render() {
+import TopNav from '../../components/TopNav/TopNav';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
-const styles = {
-  block: {
-    maxWidth: 250,
-  },
-  radioButton: {
-    marginBottom: 16,
-  },
-};
-      
+export default class Settings extends Component {
+
+    //childContextTypes() {
+  //}
+
+    //muiTheme: React.PropTypes.object,
+
+  
+    getChildContext() {
+        return {
+        muiTheme: ThemeManager.getMuiTheme(Theme),
+        };
+    }
+    
+    render() {
+
+    const { id } = this.props.params;
     return (
       <div className="settings">
-        <div className="settings__header">Settings</div>
-        <div className="settings__form">
-            <div className="settings__section">
-            <label>Name:</label>
-                 <TextField
-                hintText="Hint Text"
-                />
-            </div>
-            <div className="settings__section">
-                <label>Name:</label>
-                <TextField
-                hintText="Hint Text"
-                />
-            </div>
+          <TopNav />
+          <div className="main">
+            <Sidebar projectId={id}/>
+            <div className="settings__menu">
+                <div className="settings__header">
+                通用配置
+                </div>
+                <div className="settings__group">
+                    <TextField floatingLabelText="标题" fullWidth={true} />
+                    <TextField floatingLabelText="作者" fullWidth={true}/>
+                    <TextField floatingLabelText="主题" fullWidth={true} disabled={true} defaultValue="landscape"/>
+                </div>
 
-            <div className="settings__section">
-                <Toggle
-                label="Simple"
-                style={styles.toggle}
-                />
-                <Toggle
-                label="Toggled by default"
-                defaultToggled={true}
-                style={styles.toggle}
-                />
-                <Toggle
-                label="Disabled"
-                disabled={true}
-                style={styles.toggle}
-                />
-                <Toggle
-                label="Label on the right"
-                labelPosition="right"
-                style={styles.toggle}
-                />
+                <div className="settings__header">
+                高亮配置
+                </div>
+                <div className="settings__group">
+                    <Toggle
+                    style={{marginTop: 16}}
+                    label="是否打开代码高亮"
+                    />
+
+                </div>
             </div>
-
-            <div className="settings__section">
-                <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-      <RadioButton
-        value="light"
-        label="Simple"
-        style={styles.radioButton}
-      />
-      <RadioButton
-        value="not_light"
-        label="Selected by default"
-        style={styles.radioButton}
-      />
-      <RadioButton
-        value="ludicrous"
-        label="Disabled"
-        disabled={true}
-        style={styles.radioButton}
-      />
-    </RadioButtonGroup>
-
-    <RadioButtonGroup name="notRight" labelPosition="left" style={styles.block}>
-      <RadioButton
-        value="reverse"
-        label="Label on the left"
-        style={styles.radioButton}
-      />
-    </RadioButtonGroup>
-            </div>
-
-    <RaisedButton label="Primary" primary={true} />
-            
-        </div>
+          </div>
       </div>
     );
   }
 } 
+
+Settings.childContextTypes = {
+    muiTheme: React.PropTypes.object,
+}
 

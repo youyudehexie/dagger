@@ -11,7 +11,8 @@ export default (
     <IndexRoute component={Home} />
     <Route path="writer" component={Writer} />
     <Route path="workplace/:id" component={Workplace} />
-    <Route path="settings" component={Settings} />
+    <Route path="settings/:id" component={Settings} />
+
   </Route>
 );
 

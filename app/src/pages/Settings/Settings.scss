@@ -1,17 +1,34 @@
 @import 'compass/css3';
 @import '../../styles/variables';
 
-.settings {
+.settings__menu {
     @include flex(1);
-    padding: 32px;
+    padding: 16px;
 }
-.settings__section {
-    margin: 8px;
 
-}
 .settings__header {
-    font-size: 34px;
+    font-size: 24px;
+    font-weight: 900;
 }
 
-.settings__form {
+.settings__group {
+    margin-bottom: 54px;
 }
+
+/*.settings {*/
+    /*@include flex(1);*/
+    /*padding: 32px;*/
+/*}*/
+
+
+
+/*.settings__section {*/
+    /*margin: 8px;*/
+
+/*}*/
+/*.settings__header {*/
+    /*font-size: 34px;*/
+/*}*/
+
+/*.settings__form {*/
+/*}*/

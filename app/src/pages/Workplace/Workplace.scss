@@ -3,54 +3,43 @@
 
 .wp {
     @include flex(1);
-    @include display-flex;
+    overflow: hidden;
 }
 
-.timeline {
-    width: 240px;
-    overflow-y:auto;
-}
-
-.ct {
-    @include flex(1);
-}
-
-.ct__title {
-    font-size: 24px;
-    font-weight: 900;
-    height: 128px;
-    line-height: 128px;
-    width: 100%;
-    color: $text-primary-color;
-    background: $default-primary-color;
-}
-
-.ct__wrap {
-    overflow-y:auto;
+.main {
+    position: absolute;
     height: 100%;
+    width: 100%;
+    @include display-flex;
+    margin-top: 48px;
 }
 
+/*.timeline {*/
+    /*width: 240px;*/
+    /*overflow-y:auto;*/
+/*}*/
 
-.pt__item {
-    margin: 8px;
-}
+/*.ct {*/
+    /*@include flex(1);*/
+/*}*/
 
-.sidebar {
-    background-color: $default-primary-color;
-    color: $text-primary-color;
-    width: 56px;
-}
+/*.ct__title {*/
+    /*font-size: 24px;*/
+    /*font-weight: 900;*/
+    /*height: 128px;*/
+    /*line-height: 128px;*/
+    /*width: 100%;*/
+    /*color: $text-primary-color;*/
+    /*background: $default-primary-color;*/
+/*}*/
 
-.sidebar__lt {
-    padding-top: 56px;
-}
+/*.ct__wrap {*/
+    /*overflow-y:auto;*/
+    /*height: 100%;*/
+/*}*/
 
-.sidebar__session {
-    padding: 8px 0;
-}
 
-.sidebar__session .active {
-    background-color: $default-primary-color;
-}
-
+/*.pt__item {*/
+    /*margin: 8px;*/
+/*}*/
 

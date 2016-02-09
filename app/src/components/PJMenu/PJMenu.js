@@ -157,7 +157,7 @@ export default class TopNav extends Component {
 
         return (
         <div className="pj__menu">
-            <RaisedButton label="创建" onClick={this.handleDropMenu}/>
+            <RaisedButton label="创建" onClick={this.handleDropMenu} primary={true}/>
             <Dialog
                 title="基本信息"
                 actions={actions}
@@ -210,4 +210,5 @@ export default class TopNav extends Component {
         );
     }
 } 
+
 

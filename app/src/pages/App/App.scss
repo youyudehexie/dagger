@@ -5,6 +5,7 @@ body {
     padding: 0;
     margin: 0;
     font-size: 14px;
+    overflow: hidden;
     color: $primary-text-color;
     font-family: 'Roboto', 'Noto',sans-serif;
 }
@@ -14,5 +15,13 @@ body {
 
 .hidden {
     display: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
 }
 
