@@ -8,6 +8,7 @@ import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
 import IconButton from 'material-ui/lib/icon-button';
 import Search from 'material-ui/lib/svg-icons/action/search';
+import ActionHome from 'material-ui/lib/svg-icons/action/home';
 import Colors from 'material-ui/lib/styles/colors';
 import Divider from 'material-ui/lib/divider';
 import Paper from 'material-ui/lib/paper';
@@ -22,6 +23,7 @@ export default class Workplace extends Component {
 
   render() {
 
+      console.log(this.props)
     const style = {
         color: COLOR.PRIMARY_TEXT,
         backgroundColor: 'white',

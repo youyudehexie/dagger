@@ -4,6 +4,7 @@ import { combineReducers } from 'redux'
 import * as _ from 'lodash';
 
 import projects from './projects';
+import * as storage from 'redux-storage'
 
 
 function entities(state = { }, action) {
@@ -15,11 +16,11 @@ function entities(state = { }, action) {
 }
 
 
-const rootReducer = combineReducers({
+const rootReducer = storage.reducer(combineReducers({
     entities,
     projects,
     routing: routeReducer,
-})
+}))
 
 
 export default rootReducer

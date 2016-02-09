@@ -16,7 +16,6 @@ export function createProject(email, password, repo, target) {
 
             project = {
                 id: pj.id,
-                pj,
                 flow: {
                     name: 'started',
                     max,

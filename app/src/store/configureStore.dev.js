@@ -7,15 +7,21 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
 
+
+import * as storage from 'redux-storage'
+import createEngine from 'redux-storage/engines/localStorage';
+const engine = createEngine('dagger');
+
 const reduxRouterMiddleware = syncHistory(browserHistory)
 
 export default function configureStore(initialState) {
+  const middleware = storage.createMiddleware(engine);
   const store = createStore(
     rootReducer,
     initialState,
     compose(
       //applyMiddleware(thunk, api, reduxRouterMiddleware, createLogger()),
-      applyMiddleware(thunk, reduxRouterMiddleware, createLogger()),
+      applyMiddleware(thunk, reduxRouterMiddleware, middleware, createLogger()),
       DevTools.instrument()
     )
   )

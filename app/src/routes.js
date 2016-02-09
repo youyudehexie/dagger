@@ -10,7 +10,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="writer" component={Writer} />
-    <Route path="workplace" component={Workplace} />
+    <Route path="workplace/:id" component={Workplace} />
     <Route path="settings" component={Settings} />
   </Route>
 );

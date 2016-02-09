@@ -30,6 +30,12 @@ import Project from '../../lib/Project';
 
 import './Home.scss';
 
+import NativeRequire from '../../lib/NativeRequire';
+
+const BrowserWindow = NativeRequire('electron').BrowserWindow;
+console.log(BrowserWindow)
+//const BrowserWindow = remote.BrowserWindow;
+
 class ListProgress extends Component {
 
     render() {
@@ -70,11 +76,6 @@ export default class Home extends Component {
     this.setState({open: false});
   };
 
-  handleCreate = () => {
-    this.setState({test: !this.state.test});
-  };
-
-
   handleNewProject = (project) => {
       const {email, password, repo, path } = project;
       return this.props.projectActions.createProject(email, password, repo, path);
@@ -85,9 +86,13 @@ export default class Home extends Component {
       return this.props.projectActions.checkCreateEnv(email, password, repo, path);
   };
 
+  handleClick = (id) => {
+      var win = new BrowserWindow({ width: 800, height: 600 });
+      win.loadURL(`http://127.0.0.1:9090/workplace/${id}`);
+  };
+
   render() {
     const { Projects } = this.props;
-    console.log(Projects);
 
     return (
       <div className="home">
@@ -105,6 +110,7 @@ export default class Home extends Component {
                         />
 
                         <ListItem
+                            onClick={this.handleClick.bind(this, project.id)}
                             leftAvatar={<Avatar icon={<FileFolder />} />}
                             rightIcon={<ActionInfo />}
                             primaryText={project.account.repo}
