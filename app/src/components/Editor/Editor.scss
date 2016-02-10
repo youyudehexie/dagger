@@ -5,6 +5,7 @@
     @include flex(1);
     @include display-flex;
     @include flex-direction(column);
+    position: relative;
 }
 
 .editor__title {
@@ -35,7 +36,12 @@
     word-wrap: break-word;
     overflow-x: hidden;
     overflow-y: auto;
-    -webkit-user-modify: read-write-plaintext-only;
 }
 
+
+.editor__publish {
+    position: fixed;
+    top: 56px;
+    right: 24px;
+}
 

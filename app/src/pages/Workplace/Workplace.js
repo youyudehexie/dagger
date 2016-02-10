@@ -26,21 +26,47 @@ import Editor from '../../components/Editor/Editor';
 
 export default class Workplace extends Component {
 
-    componentWillMount() {
-        const { id } = this.props.params;
+    constructor(props) {
+        super(props);
+        this.state = {
+            post: undefined,
+        }
     }
 
-    render() {
+   componentWillMount(){
+       const { project } = this.props;
+       this.props.projectActions.loadProject(project);
+   }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.project && this.props.project.id != nextProps.project.id) {
+            this.props.projectActions.loadProject(nextProps.project);
+        }
+    }
+
+    handleNewPost = () => {
+        console.log('handleNewpost');
+    };
+
+    handleEditPost = (post, content) => {
+        const { project } = this.props;
+        return this.props.projectActions.editPost(project, post, content);
+    };
+
+    render() {
         const { id } = this.props.params;
+        const pathname = this.props.location.pathname;
+        const { posts, project } = this.props;
+        let post = this.state.post || posts[0] || {};
+        post.rawPost = project.resources.rawPost && project.resources.rawPost[post.source] || '';
 
         return (
             <div className="wp">
             <TopNav />
             <div className="main">
-                <Sidebar projectId={id}/>
-                <Timeline />
-                <Editor />
+                <Sidebar projectId={id} pathname={pathname}/>
+                <Timeline posts={posts} onNewPost={this.handleNewPost} />
+                <Editor post={post} onEditPost={this.handleEditPost}/>
             </div>
             </div>
         );

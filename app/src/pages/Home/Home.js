@@ -111,7 +111,6 @@ export default class Home extends Component {
                         <ListItem
                             onClick={this.handleClick.bind(this, project.id)}
                             leftAvatar={<Avatar icon={<FileFolder />} />}
-                            rightIcon={<ActionInfo />}
                             primaryText={project.account.repo}
                         />
                     </div>

@@ -27,6 +27,10 @@ module.exports = {
       test: /\.scss$/,   
       loader: 'style-loader!css!sass-loader?includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib'),
     },
+    {
+      test: /\.json?$/,
+      loader: 'json'
+    },
     { test: /\.woff$/,   loader: "url-loader?prefix=font/&limit=5000&mimetype=application/font-woff" },
     { test: /\.ttf$/,    loader: "file-loader" },
     { test: /\.svg$/,    loader: "file-loader" },

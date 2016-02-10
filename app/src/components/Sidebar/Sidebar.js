@@ -13,17 +13,36 @@ export default class Sidebar extends Component {
     }
 
     render() {
-        const { projectId } = this.props;
+        const { projectId, pathname } = this.props;
+        const items = [{
+            key: 'workplace',
+            to: `/workplace/${projectId}`,
+            active: /workplace/.test(pathname),
+            icon: <EditIcon color={/workplace/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
+        }, {
+            key: 'settings',
+            to: `/settings/${projectId}`,
+            active: /settings/.test(pathname),
+            icon: <SettingsIcon color={/settings/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
+        }
+        ]
 
         return (
         <div className="sidebar">
             <div className="sidebar__items">
-                <Link to={`/workplace/${projectId}`} className="sidebar__item sidebar__item_active">
-                    <EditIcon color={Colors.blue500}/>
-                </Link>
-                <Link to={`/settings/${projectId}`} className="sidebar__item" >
-                    <SettingsIcon color={Colors.grey500}/>
-                </Link>
+            {
+                items.map((item) => {
+                    return (
+                    <div key={item.key}>
+                        <Link 
+                            to={item.to} 
+                            className={`sidebar__item ${item.active ? 'sidebar__item_active': ''}`}>
+                            {item.icon}
+                        </Link>
+                    </div>
+                    )
+                })
+            }
             </div>
         </div>
         );

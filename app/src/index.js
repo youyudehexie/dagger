@@ -18,9 +18,14 @@ window.localStorage.setItem('dagger', JSON.stringify(jsonState));
 const load = storage.createLoader(engine);
 
 const store = configureStore()
-load(store);
 
-render(
-  <Root store={store} />,
-  document.getElementById('root')
-)
+
+load(store)
+.then((newState) => {
+    render(
+    <Root store={store} />,
+    document.getElementById('root')
+    )
+})
+.catch((e) => console.log(e));
+

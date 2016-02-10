@@ -231,6 +231,19 @@ Project.prototype = {
         });
     },
 
+    generate: function () {
+        var self = this;
+        var cmdPath = 'hexo';
+
+        return new Promise(function (resolve, reject) {
+            exec(`${cmdPath} generate`, {cwd: self.baseDir}, function (err, stdout, stderr) {
+                console.log(stdout)
+                if (err) return reject(err);
+                return resolve();
+            });
+        });
+    },
+
     installDeployGit: function () {
         var child = spawn('npm', ['install','hexo-deployer-git', '--save'].concat(this.npmArgs), {cwd: this.baseDir})
         var output = '';

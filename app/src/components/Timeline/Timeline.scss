@@ -6,6 +6,12 @@
     overflow-y: auto;
     border-right: 1px solid $color-grey-200;
     background-color: $color-grey-50;
+    padding-bottom: 48px;
+}
+
+.te__new {
+    padding: 8px;
+    background-color: white;
 }
 
 .te__item {

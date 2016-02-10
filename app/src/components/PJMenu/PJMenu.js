@@ -19,6 +19,10 @@ import WarningAction from 'material-ui/lib/svg-icons/alert/warning'
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import NativeRequire from '../../lib/NativeRequire';
 
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+
+
 const dialog = NativeRequire('electron').dialog;
 let timer;
 let dialogOpened = false;
@@ -155,9 +159,14 @@ export default class TopNav extends Component {
         />,
         ];
 
+
         return (
         <div className="pj__menu">
-            <RaisedButton label="创建" onClick={this.handleDropMenu} primary={true}/>
+            <FloatingActionButton mini={true} onClick={this.handleOpen}>
+                <ContentAdd />
+            </FloatingActionButton>
+
+
             <Dialog
                 title="基本信息"
                 actions={actions}
@@ -198,14 +207,6 @@ export default class TopNav extends Component {
                 </div>
 
                 </Dialog>
-
-            <Menu zDepth={1} className="pj__new" 
-                listStyle={{display: this.state.drop ?  'block' : 'none'}}
-                style={{position: 'absolute', width: 120, left: 16, top: 38}}>
-                <MenuItem primaryText="新建空白博客" onClick={this.handleOpen}/>
-                <MenuItem primaryText="读取远端博客" />
-                <MenuItem primaryText="读取本地博客" />
-            </Menu>
         </div>
         );
     }
