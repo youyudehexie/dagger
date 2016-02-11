@@ -1,4 +1,4 @@
-var NativeRequire = require('./NativeRequire');
+import NativeRequire from './NativeRequire.js'
 var GitHubApi = NativeRequire('github');
 var async = NativeRequire('async');
 var _ = NativeRequire('lodash');

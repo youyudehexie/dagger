@@ -1,11 +1,23 @@
+var path = window.require('path');
+var fs = window.require('fs');
 
-module.exports = function (name) {
-    if (typeof(window) == 'undefined') return require(name);
-
-    var remote = window.require('electron').remote;
-    if (remote) {
-        return remote.require(name);
+export default function NativeRequire(name) {
+    if (!window.process) {
+        return window.require(name);
     }
 
-    return require(name);
+    var moduleDir = path.join(window.process.resourcesPath, '/app/node_modules/' + name);
+    var localDir = path.join(window.process.cwd(), '/node_modules/' + name);
+
+    if (fs.existsSync(moduleDir)) {
+        return window.require(moduleDir);
+    }
+
+    if (fs.existsSync(localDir)) {
+        return window.require(localDir);
+    }
+
+    return window.require(name);
 }
+
+export default NativeRequire;

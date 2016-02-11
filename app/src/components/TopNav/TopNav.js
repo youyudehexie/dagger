@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import './TopNav.scss';
 
 import NativeRequire from '../../lib/NativeRequire';
-const electron = NativeRequire('electron');
-const win = electron.getCurrentWindow();
+const remote = NativeRequire('remote');
+const win = remote.getCurrentWindow();
 
 export default class TopNav extends Component {
     constructor(props) {

@@ -1,4 +1,4 @@
-var NativeRequire = require('./NativeRequire');
+import NativeRequire from './NativeRequire';
 var fs = NativeRequire('fs');
 var Path = NativeRequire('path');
 var JtoY = NativeRequire('json2yaml');
