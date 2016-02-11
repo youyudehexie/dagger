@@ -11,12 +11,8 @@ export default class TopNav extends Component {
         super(props);
     }
 
-    componentDidMount() {
-    }
-
     handleClose = () => {
-        console.log('close');
-        //win.hide();
+        win.close();
     };
 
     handleMinimize = () => {
@@ -28,6 +24,8 @@ export default class TopNav extends Component {
     };
 
     render() {
+        const { title } = this.props;
+
         return (
         <div className="topnav">
             <div className="topnav__items">
@@ -35,7 +33,7 @@ export default class TopNav extends Component {
                 <div className="topnav__item topnav__min" onClick={this.handleMinimize}></div>
                 <div className="topnav__item topnav__max" onClick={this.handleMaximize}></div>
             </div>
-            <div className="topnav__title">Dagger</div>
+            <div className="topnav__title">{title || 'Dagger'}</div>
         </div>
         );
     }

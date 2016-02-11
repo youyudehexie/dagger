@@ -19,6 +19,11 @@ const load = storage.createLoader(engine);
 
 const store = configureStore()
 
+//render(
+//<Root store={store} />,
+//document.getElementById('root')
+//)
+
 
 load(store)
 .then((newState) => {

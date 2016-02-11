@@ -6,20 +6,20 @@ import { normalize } from 'normalizr';
 import { Schemas } from '../constants/schema';
 
 
-export function createProject(email, password, repo, target) {
+export function createProject(email, password, target) {
     return (dispatch, getState) => {
         async function process() {
-            const pj = new Project(email, password, repo, target);
-            const flows = ['genTpl', 'installDep', 'installDeployGit', 'generate'];
+            const pj = new Project(email, password, target);
+            const flows = ['init', 'createRepo', 'genTpl', 'installDep', 'installDeployGit', 'deploy'];
             const max = flows.length + 1;
             let step = 1;
             let project = {};
-            const f = new File(target);
 
             await pj.init();
 
             project = {
                 id: pj.id,
+                publishing: false,
                 resources: {},
                 flow: {
                     name: 'started',
@@ -29,7 +29,7 @@ export function createProject(email, password, repo, target) {
                 account: {
                     email,
                     password,
-                    repo,
+                    repo: pj.repo || '',
                     target
                 },
             };
@@ -58,6 +58,7 @@ export function createProject(email, password, repo, target) {
                 });
             }
 
+
         }
 
         return process();
@@ -65,26 +66,55 @@ export function createProject(email, password, repo, target) {
 
 }
 
-export function newPost(project, title) {
-    const { account: { target }, id } =  project;
+export function saveSetting(project, settings) {
+    return (dispatch, getState) => {
+        const target = project.account.target;
+        const file = new File(target);
 
-    return dispatch({
-        type: ActionType.NEW_POST,
-    });
+        async function process() {
+            await file.saveSetting(settings);
+            project.resources = await file.load();
+            dispatch({
+                type: ActionType.SAVE_SETTINGS,
+                response: normalize(project, Schemas.PROJECT),
+            });
+        }
+        return process();
+    }
+
 }
 
-export function editPost(project, post, content) {
+export function newPost(project, title) {
+    return (dispatch, getState) => {
+        const target = project.account.target;
+        const file = new File(target);
+
+        async function process() {
+            await file.newPost(title);
+            project.resources = await file.load();
+
+            dispatch({
+                type: ActionType.NEW_POST,
+                response: normalize(project, Schemas.PROJECT),
+            });
+        }
+
+        return process();
+    }
+
+}
+
+export function editPost(project, post, contentText, contentHtml) {
     return (dispatch, getState) => {
         const target = project.account.target;
         const resources = project.resources;
         const file = new File(target);
         const { source } = post;
-        resources.rawPost[source] = content;
+        resources.rawPost[source] = contentHtml;
 
         async function process() {
-            console.log(`${target}/source/${source}`)
             try {
-                await file.write(`${target}/source/${source}`, content)
+                await file.write(`${target}/source/${source}`, contentText)
             } catch (e) {
                 console.log(e);
             }
@@ -99,12 +129,47 @@ export function editPost(project, post, content) {
     }
 }
 
+export function deployPost(project) {
+    return (dispatch, getState) => {
+        const { id } = project;
+        const target = project.account.target;
+        const file = new File(target);
 
-export function checkCreateEnv(email, password, repo, target) {
+        async function process() {
+            project.publishing = true;
+
+            dispatch({
+                id,
+                type: ActionType.DEPLOY_POST_START,
+                response: normalize(project, Schemas.PROJECT),
+            });
+
+            try {
+                await file.deploy();
+            } catch (e) {
+                console.log(e);
+            }
+
+            project.publishing = false;
+
+            dispatch({
+                id,
+                type: ActionType.DEPLOY_POST_END,
+                response: normalize(project, Schemas.PROJECT),
+            });
+        }
+
+        return process();
+    }
+}
+
+
+
+export function checkCreateEnv(email, password, target) {
     return (dispatch, getState) => {
         let pj;
         try {
-            pj = new Project(email, password, repo, target);
+            pj = new Project(email, password, target);
         } catch (e) {
             return Promise.reject({code: 'auth_error', msg: '账号验证失败'})
         }

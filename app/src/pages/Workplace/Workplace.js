@@ -16,6 +16,8 @@ import TextField from 'material-ui/lib/text-field';
 
 import BuildIcon from 'material-ui/lib/svg-icons/action/build';
 import SettingApplication from 'material-ui/lib/svg-icons/action/settings-applications';
+import Snackbar from 'material-ui/lib/snackbar';
+
 
 import TopNav from '../../components/TopNav/TopNav';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -24,16 +26,20 @@ import Timeline from '../../components/Timeline/Timeline';
 import './Workplace.scss';
 import Editor from '../../components/Editor/Editor';
 
+import NativeRequire from '../../lib/NativeRequire';
+const BrowserWindow = NativeRequire('electron').BrowserWindow;
+
 export default class Workplace extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            open: false,
             post: undefined,
         }
     }
 
-   componentWillMount(){
+   componentWillMount() {
        const { project } = this.props;
        this.props.projectActions.loadProject(project);
    }
@@ -44,13 +50,44 @@ export default class Workplace extends Component {
         }
     }
 
-    handleNewPost = () => {
-        console.log('handleNewpost');
+    handleNewPost = (title) => {
+        const { project } = this.props;
+        return this.props.projectActions.newPost(project, title);
     };
 
-    handleEditPost = (post, content) => {
+    handleEditPost = (post, contentText, contentHtml) => {
         const { project } = this.props;
-        return this.props.projectActions.editPost(project, post, content);
+        return this.props.projectActions.editPost(project, post, contentText, contentHtml);
+    };
+
+    handlePublish = () => {
+        const { project } = this.props;
+        return this.props.projectActions.deployPost(project)
+        .then(() => this.setState({open: true}))
+        .catch(() => {
+            this.setState({open: true})
+        })
+    };
+
+    handleReadPost = (post) => {
+        this.setState({post: post})
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
+
+    handleOpenBrowser = () => {
+        const { project } = this.props;
+
+        var win = new BrowserWindow({ 
+            width: 800, 
+            height: 600,
+        });
+
+        win.loadURL(`http://${project.account.repo}?time=${Date.now()}`);
     };
 
     render() {
@@ -61,14 +98,30 @@ export default class Workplace extends Component {
         post.rawPost = project.resources.rawPost && project.resources.rawPost[post.source] || '';
 
         return (
-            <div className="wp">
-            <TopNav />
+        <div className="wp">
+            <TopNav title={project.account.repo}/>
             <div className="main">
-                <Sidebar projectId={id} pathname={pathname}/>
-                <Timeline posts={posts} onNewPost={this.handleNewPost} />
-                <Editor post={post} onEditPost={this.handleEditPost}/>
+                <Sidebar projectId={id} pathname={pathname} onOpenBrowser={this.handleOpenBrowser}/>
+                <Timeline 
+                    posts={posts} 
+                    onReadPost={this.handleReadPost}
+                    onNewPost={this.handleNewPost} 
+                />
+                <Editor 
+                    post={post} 
+                    publish={project.publishing}
+                    onEditPost={this.handleEditPost} 
+                    onPublish={this.handlePublish}
+                />
+                <Snackbar
+                    open={this.state.open}
+                    bodyStyle={{backgroundColor: '#2196F3'}}
+                    message="发布成功"
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </div>
-            </div>
+        </div>
         );
     }
 } 

@@ -38,6 +38,11 @@
     overflow-y: auto;
 }
 
+.editor__loading {
+    position: absolute;
+    top: 16px;
+    right: 64px;
+}
 
 .editor__publish {
     position: fixed;

@@ -9,7 +9,7 @@ const fs = require('fs');
 function initWindow() {
     mainWindow = new BrowserWindow({
         minWidth: 400,
-        minHeight: 500,
+        minHeight: 600,
         height: 600,
         frame: false,
         show: false,

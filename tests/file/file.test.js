@@ -67,18 +67,37 @@ describe('File#load', function () {
             //})
         //});
 
-        it('should write file success', function (done) {
-            var f = new File(PATH); 
-            var file = 'hello-world.md';
-            var content = 'hello world';
-            var path = `${Path.join(PATH, 'source/_posts')}/${file}`
+        //it('should write file success', function (done) {
+            //var f = new File(PATH); 
+            //var file = 'hello-world.md';
+            //var content = 'hello world';
+            //var path = `${Path.join(PATH, 'source/_posts')}/${file}`
 
-            f.write(path, content)
-            .then(function () {
-                return f.readFile(path);
+            //f.write(path, content)
+            //.then(function () {
+                //return f.readFile(path);
+            //})
+            //.then(function (result) {
+                //result.should.equal(content);
+                //done();
+            //})
+            //.catch(done)
+        //});
+
+        it('should write setting file success', function (done) {
+            var f = new File(PATH); 
+
+            f.load()
+            .then(function (resources) {
+                var settings = resources.settings;
+                settings['title'] = 'hexie';
+                return f.saveSetting(settings);
             })
-            .then(function (result) {
-                result.should.equal(content);
+            .then(function () {
+                return f.load();
+            })
+            .then(function (resources) {
+                resources.settings.title.should.equal('hexie');
                 done();
             })
             .catch(done)

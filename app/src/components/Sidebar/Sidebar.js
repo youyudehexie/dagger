@@ -3,14 +3,22 @@ import { Link, History } from 'react-router'
 
 import EditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 import SettingsIcon from 'material-ui/lib/svg-icons/action/settings';
+import OpenInBrowser from 'material-ui/lib/svg-icons/action/open-in-browser';
 
 import './Sidebar.scss';
 import Colors from 'material-ui/lib/styles/colors';
+
 
 export default class Sidebar extends Component {
     constructor(props) {
         super(props);
     }
+
+    handleOpenBrowser = () => {
+        const { onOpenBrowser } = this.props;
+        if (!onOpenBrowser) return;
+        onOpenBrowser();
+    };
 
     render() {
         const { projectId, pathname } = this.props;
@@ -43,6 +51,9 @@ export default class Sidebar extends Component {
                     )
                 })
             }
+            <div className="sidebar__item">
+                <OpenInBrowser color={Colors.grey500} onClick={this.handleOpenBrowser}/>
+            </div>
             </div>
         </div>
         );

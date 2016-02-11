@@ -1,33 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import './PJMenu.scss';
 import * as _ from 'lodash';
 
 import Colors from 'material-ui/lib/styles/colors';
-
-import RaisedButton from 'material-ui/lib/raised-button';
+import Theme from '../../theme';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Dialog from 'material-ui/lib/dialog';
-import Menu from 'material-ui/lib/menus/menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
 import FlatButton from 'material-ui/lib/flat-button';
-
-import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
 import FileOpen from 'material-ui/lib/svg-icons/file/folder-open'
 import WarningAction from 'material-ui/lib/svg-icons/alert/warning'
-
-import Toolbar from 'material-ui/lib/toolbar/toolbar';
-import NativeRequire from '../../lib/NativeRequire';
-
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
 
+import './PJMenu.scss';
+
+import NativeRequire from '../../lib/NativeRequire';
 const dialog = NativeRequire('electron').dialog;
 let timer;
 let dialogOpened = false;
 
-export default class TopNav extends Component {
+export default class PJMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,14 +32,6 @@ export default class TopNav extends Component {
             tips: '',
             disabled: false,
             forms: {
-                repo: {
-                    key: 'repo',
-                    fullWidth: true,
-                    ref: 'repo',
-                    test: /^[0-9a-zA-Z]*$/g,
-                    floatingLabelText: '博客域名',
-                    hintText: 'youyudehexie.github.io',
-                },
                 email: {
                     key: 'email',
                     ref: 'email',
@@ -68,14 +54,9 @@ export default class TopNav extends Component {
                     floatingLabelText: '目录路径',
                 }
             },
-            createForms: ['repo', 'email', 'password']
+            createForms: [ 'email', 'password']
         }
     }
-
-    handleDropMenu = (evt) => {
-        event.preventDefault();
-        this.setState({drop: !this.state.drop});
-    };
 
     handleOpen = () => {
         this.setState({open: true, drop: false});
@@ -83,9 +64,6 @@ export default class TopNav extends Component {
 
     handleClose = () => {
         this.setState({open: false});
-    };
-
-    handleChange = () => {
     };
 
     handleFileOpen = () => {
@@ -98,6 +76,12 @@ export default class TopNav extends Component {
             this.setState(state);
         }
     };
+
+    getChildContext() {
+        return {
+            muiTheme: ThemeManager.getMuiTheme(Theme),
+        };
+    }
 
     handleNewProject = () => {
         let state = this.state;
@@ -139,6 +123,7 @@ export default class TopNav extends Component {
             return this.props.onNewProject(fields);
         })
         .catch((e) => {
+            console.log(e);
             this.setState({tips: e.msg || '账号或密码错误', creating: false});
         })
     };
@@ -159,13 +144,11 @@ export default class TopNav extends Component {
         />,
         ];
 
-
         return (
         <div className="pj__menu">
             <FloatingActionButton mini={true} onClick={this.handleOpen}>
                 <ContentAdd />
             </FloatingActionButton>
-
 
             <Dialog
                 title="基本信息"
@@ -188,11 +171,10 @@ export default class TopNav extends Component {
                         }
 
                         <div className="pj__section">
-                            <TextField {...this.state.forms['path']} 
-                            />
+                            <TextField {...this.state.forms['path']} />
                             <IconButton 
-                            style={{position: 'absolute', bottom: 8, right: -56}} 
-                            onClick={this.handleFileOpen}
+                                style={{position: 'absolute', bottom: 8, right: -56}} 
+                                onClick={this.handleFileOpen}
                             >
                                 <FileOpen />
                             </IconButton>
@@ -200,16 +182,22 @@ export default class TopNav extends Component {
                     </div>
                     <div className="pj__icon"></div>
                 </div>
-
                 <div className={`pj__tips ${this.state.tips == '' ? 'hidden' : ''}`} >
                     <WarningAction color={Colors.pink400} style={{verticalAlign: 'bottom', marginRight: 8}}/>
                     <span>{this.state.tips}</span>
                 </div>
-
-                </Dialog>
+            </Dialog>
         </div>
         );
     }
 } 
 
+PJMenu.propTypes = {
+    onNewProject: React.PropTypes.func,
+    onCreateCheck: React.PropTypes.func,
+}
+
+PJMenu.childContextTypes = {
+    muiTheme: React.PropTypes.object,
+}
 

@@ -10,7 +10,10 @@ function mapStateToProps(state, props) {
     } = state;
 
     const project = projects && projects[props.params.id] || {};
-    let posts = project.resources.db && project.resources.db.models.Post || [];
+    let posts = project.resources && project.resources.db && project.resources.db.models.Post || [];
+    posts = _.sortBy(posts, (post) => {
+        return (new Date(post.date)).getTime()*(-1);
+    });
 
     return {
         posts,

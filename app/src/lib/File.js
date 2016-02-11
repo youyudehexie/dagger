@@ -16,7 +16,10 @@ File.prototype.load = function () {
     var configPath = `${this.path}/_config.yml`
     var dbPath = `${this.path}/db.json`
 
-    return self.readFile(configPath)
+    return self.generate()
+    .then(function () {
+        return self.readFile(configPath)
+    })
     .then(function (content) {
         self.resources['settings'] = YtoJ.safeLoad(content);
         return self.readFile(dbPath);
@@ -45,9 +48,18 @@ File.prototype.generate = function () {
     return self.runCmd('hexo generate', {cwd: self.path});
 }
 
+File.prototype.deploy = function () {
+    var self = this;
+    return self.generate()
+    .then(function () {
+        return self.runCmd('hexo deploy', {cwd: self.path});
+    })
+}
+
 File.prototype.runCmd = function (cmd, options) {
     return new Promise(function (resolve, reject) {
         exec(cmd, options, function (err, stdout, stderr) {
+            console.log(stdout, stderr);
             if (err) return reject(err);
             return resolve(stdout, stderr);
         });
@@ -71,6 +83,12 @@ File.prototype.write = function (path, content) {
             return resolve();
         });
     });
+}
+
+File.prototype.saveSetting = function (settings) {
+    var self = this;
+    var configPath = `${self.path}/_config.yml`
+    return self.write(configPath, JtoY.stringify(settings));
 }
 
 File.prototype.loadPosts = function (path) {

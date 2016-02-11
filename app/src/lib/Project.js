@@ -7,16 +7,16 @@ var Path = NativeRequire('path');
 var exec = NativeRequire('child_process').exec;
 var fs = NativeRequire('fs');
 var YAML = NativeRequire('yamljs');
-var JSONTOYAML = NativeRequire('json2yaml')
+var JtoY = NativeRequire('json2yaml');
+var File = require('./File.js');
 
 var md5 = NativeRequire('md5');
 
 
-var Project = function (email, password, repo, target) {
+var Project = function (email, password, target) {
     var self = this;
     this.email = email;
     this.password = password;
-    this.repo = repo;
     this.target = target;
 
     this.owner = {};
@@ -48,6 +48,7 @@ Project.prototype = {
             self.github.user.get({}, function (err, response) {
                 if (err) return reject(err);
                 self.username = response.login;
+                self.repo = `${self.username}.github.io`
                 self.id = md5([self.username, self.repo].join(':'));
                 return resolve(response);
             });
@@ -161,13 +162,21 @@ Project.prototype = {
         });
     },
 
+    setGithub: function () {
+        var self = this;
+        var originRepo = `https://${self.username}:${self.password}@github.com/${self.username}/${self.repo}.git`;
+        var f = new File(this.target);
+        self.settings['deploy']['repo'] = originRepo;
+        self.settings['deploy']['type'] = 'git';
+        return f.saveSetting(self.settings);
+    },
+
     genTpl: function (target) {
         var self = this;
         var cmdPath = 'hexo';
         var originRepo = `https://${self.username}:${self.password}@github.com/${self.username}/${self.repo}.git`;
 
         self.baseDir = target || self.target;
-
 
         return new Promise(function (resolve, reject) {
             exec(`${cmdPath} init`, {cwd: self.baseDir}, function (err, stdout, stderr) {
@@ -179,9 +188,11 @@ Project.prototype = {
 
                 self.settings['deploy']['repo'] = originRepo;
                 self.settings['deploy']['type'] = 'git';
+                console.log(self.settings)
+
                 fs.writeFile(
                 `${self.baseDir}/_config.yml`, 
-                JSONTOYAML.stringify(self.settings),
+                JtoY.stringify(self.settings),
                 'utf-8', 
                 function (err) {
                     if (err) return reject(err);
