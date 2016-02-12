@@ -1,8 +1,8 @@
 {
   "osx" : {
     "title": "Dagger",
-    "icon": "./res/atom.icns",
-    "background": "./res/install.png",
+    "icon": "./atom.icns",
+    "background": "./install.png",
     "icon-size": 80,
     "contents": [
       { "x": 438, "y": 150, "type": "link", "path": "/Applications" },

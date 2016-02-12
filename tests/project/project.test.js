@@ -75,6 +75,10 @@ describe('Project', function () {
                 response.should.be.true;
                 done();
             })
+            .catch(function (err) {
+                (err === null).should.be.true;
+                done()
+            })
 
         });
 

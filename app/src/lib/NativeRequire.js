@@ -1,31 +1,39 @@
-var window = window || null;
-if (!window) {
-    window = {};
-    window['require'] = function (name) {
-        return require(name);
-    }
+if (process.env.NODE_ENV === 'test') {
+  module.exports = require('./NativeRequire.test.js')
+} else {
+  module.exports = require('./NativeRequire.prod.js')
 }
 
-var path = window.require('path');
-var fs = window.require('fs');
+//if (process.env.NODE_ENV === 'test') {
+    //var window = window || null;
+    //if (!window) {
+        //window = {};
+        //window['require'] = function (name) {
+            //return require(name);
+        //}
+    //}
+//} 
 
-export default function NativeRequire(name) {
-    if (!window.process) {
-        return window.require(name);
-    }
+//var path = window.require('path');
+//var fs = window.require('fs');
 
-    var moduleDir = path.join(window.process.resourcesPath, '/app/node_modules/' + name);
-    var localDir = path.join(window.process.cwd(), '/node_modules/' + name);
+//export default function NativeRequire(name) {
+    //if (!window.process) {
+        //return window.require(name);
+    //}
 
-    if (fs.existsSync(moduleDir)) {
-        return window.require(moduleDir);
-    }
+    //var moduleDir = path.join(window.process.resourcesPath, '/app/node_modules/' + name);
+    //var localDir = path.join(window.process.cwd(), '/node_modules/' + name);
 
-    if (fs.existsSync(localDir)) {
-        return window.require(localDir);
-    }
+    //if (fs.existsSync(moduleDir)) {
+        //return window.require(moduleDir);
+    //}
 
-    return window.require(name);
-}
+    //if (fs.existsSync(localDir)) {
+        //return window.require(localDir);
+    //}
 
-export default NativeRequire;
+    //return window.require(name);
+//}
+
+//export default NativeRequire;
