@@ -11,7 +11,6 @@ import rootReducer from '../reducers'
 import * as storage from 'redux-storage'
 import createEngine from 'redux-storage/engines/localStorage';
 const engine = createEngine('dagger');
-
 const reduxRouterMiddleware = syncHistory(browserHistory)
 
 export default function configureStore(initialState) {
