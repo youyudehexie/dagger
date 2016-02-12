@@ -12,6 +12,7 @@ Dagger，是一款静态博客编辑器，除了承担markdown文本编辑任务
 
 ## 下载链接
 
+[http://pan.baidu.com/s/1o6PxIMQ](http://pan.baidu.com/s/1o6PxIMQ)
 
 ### 环境要求
 
