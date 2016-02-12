@@ -1,7 +1,5 @@
 import NativeRequire from './NativeRequire.js'
 var GitHubApi = NativeRequire('github');
-var async = NativeRequire('async');
-var _ = NativeRequire('lodash');
 var spawn = NativeRequire('child_process').spawn;
 var Path = NativeRequire('path');
 var exec = NativeRequire('child_process').exec;
@@ -83,10 +81,12 @@ Project.prototype = {
         var self = this;
         return self.checkFolder()
         .then(function () {
-            return self.checkCmd('npm');
+            return self.checkCmd('/usr/local/bin/npm');
         })
         .then(function () {
-            return self.checkCmd('hexo');
+            const cmd = '/usr/local/bin/npm /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
+            return self.checkCmd(cmd);
+            //return self.checkCmd('hexo');
         })
         .then(function () {
             return new Promise(function (resolve, reject) {
@@ -173,7 +173,7 @@ Project.prototype = {
 
     genTpl: function (target) {
         var self = this;
-        var cmdPath = 'hexo';
+        var cmdPath = '/usr/local/bin/node /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
         var originRepo = `https://${self.username}:${self.password}@github.com/${self.username}/${self.repo}.git`;
 
         self.baseDir = target || self.target;
@@ -182,14 +182,6 @@ Project.prototype = {
             exec(`${cmdPath} init`, {cwd: self.baseDir}, function (err, stdout, stderr) {
                 fs.readFile(`${self.baseDir}/_config.yml`, 'utf-8', function (err, content) {
                     self.settings = YtoJ.safeLoad(content);
-                    console.log(self.settings)
-
-                    //console.log('===========')
-                    //console.log(settings);
-                    //console.log('===========')
-                    //Object.keys(settings).forEach((key) => {
-                        //self.settings[key] = settings[key];
-                    //});
                     self.settings['deploy']['repo'] = originRepo;
                     self.settings['deploy']['type'] = 'git';
 
@@ -237,11 +229,10 @@ Project.prototype = {
 
     deploy: function () {
         var self = this;
-        var cmdPath = 'hexo';
+        var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
 
         return new Promise(function (resolve, reject) {
             exec(`${cmdPath} deploy`, {cwd: self.baseDir}, function (err, stdout, stderr) {
-                console.log(stdout)
                 if (err) return reject(err);
                 return resolve();
             });
@@ -250,7 +241,7 @@ Project.prototype = {
 
     generate: function () {
         var self = this;
-        var cmdPath = 'hexo';
+        var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
 
         return new Promise(function (resolve, reject) {
             exec(`${cmdPath} generate`, {cwd: self.baseDir}, function (err, stdout, stderr) {
@@ -262,7 +253,7 @@ Project.prototype = {
     },
 
     installDeployGit: function () {
-        var child = spawn('npm', ['install','hexo-deployer-git', '--save'].concat(this.npmArgs), {cwd: this.baseDir})
+        var child = spawn('/usr/local/bin/npm', ['install','hexo-deployer-git', '--save'].concat(this.npmArgs), {cwd: this.baseDir})
         var output = '';
 
         return new Promise(function (resolve, reject) {
@@ -283,7 +274,7 @@ Project.prototype = {
     },
 
     installDep: function () {
-        var child = spawn('npm', ['install'].concat(this.npmArgs), {cwd: this.baseDir})
+        var child = spawn('/usr/local/bin/npm', ['install'].concat(this.npmArgs), {cwd: this.baseDir})
         var output = '';
 
         return new Promise(function (resolve, reject) {

@@ -23,6 +23,7 @@ function initWindow() {
     mainWindow.loadURL('app://www.dagger.com/')
     //mainWindow.loadURL('http://127.0.0.1:9090/')
     mainWindow.show();
+    mainWindow.openDevTools();
 }
 
 app.on('window-all-closed', function() {

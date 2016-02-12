@@ -7,4 +7,7 @@ public/
 .deploy*/
 node_env/*
 app/build/*
+dist/*
+tmp/*
+.tmp/*
 dagger/src/web_content/*

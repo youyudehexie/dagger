@@ -10,7 +10,8 @@ export function createProject(email, password, target) {
     return (dispatch, getState) => {
         async function process() {
             const pj = new Project(email, password, target);
-            const flows = ['init', 'createRepo', 'genTpl', 'installDep', 'installDeployGit', 'deploy'];
+            const flows = ['init', 'createRepo', 'genTpl', 'deploy'];
+            //const flows = ['init', 'createRepo', 'genTpl', 'deploy'];
             const max = flows.length + 1;
             let step = 1;
             let project = {};

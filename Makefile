@@ -8,5 +8,10 @@ test:
 		-r tests/test_helper \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
+dmg: 
+	cp ./res/atom.icns dist/Dagger-darwin-x64/Dagger.app/Contents/Resources/atom.icns
+	./node_modules/electron-builder/cli.js dist/Dagger-darwin-x64/Dagger.app/ --platform=osx --out=dist/ --config=config.json
 
 .PHONY: test
+.PHONY: dmg
+	
