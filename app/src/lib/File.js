@@ -47,6 +47,7 @@ File.prototype.newPost = function (title) {
 File.prototype.generate = function () {
     var self = this;
     var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
+    console.log(self.path);
     return self.runCmd(`${cmdPath} generate`, {cwd: self.path});
 }
 

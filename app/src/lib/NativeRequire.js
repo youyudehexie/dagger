@@ -1,3 +1,11 @@
+var window = window || null;
+if (!window) {
+    window = {};
+    window['require'] = function (name) {
+        return require(name);
+    }
+}
+
 var path = window.require('path');
 var fs = window.require('fs');
 

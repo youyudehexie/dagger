@@ -3,11 +3,20 @@ var ProjectManager = require('../../app/src/lib/Project');
 var config = require('../../config').github;
 var fs = require('fs');
 var async = require('async');
+var Path = require('path');
 var exec = require('child_process').exec;
 var request = require('request');
 
-var pj = new ProjectManager(config.email, config.password, config.repo, '/Users/zhenfu/sandbox/hexo/');
+var pj = null
+
 describe('Project', function () {
+    before(function (done) {
+        exec('mkdir folders', {cwd: '../'}, function () {
+            var target = Path.join('../', 'folders');
+            pj = new ProjectManager(config.email, config.password, target);
+            done();
+        })
+    });
 
     describe('Project#checkFolder', function () {
         it('should success', function(done) {
@@ -51,7 +60,8 @@ describe('Project', function () {
             .then(function () {
                 done();
             })
-            .catch(function () {
+            .catch(function (err) {
+                (err === null).should.be.true;
                 done();
             })
         })
@@ -69,22 +79,26 @@ describe('Project', function () {
         });
 
         it('repo should not found', function(done) {
-
             pj.checkRepo()
             .then(function (response) {
                 response.should.be.false;
                 done();
-            });
+            })
+            .catch(function (err) {
+                (err === null).should.be.true;
+                done()
+            })
         });
     });
 
     describe('Project#checkCreateEnv', function () {
-        before(function (done) {
+        beforeEach(function (done) {
             pj.dropRepo(config.username, config.repo)
             .then(function () {
                 done();
             })
-            .catch(function () {
+            .catch(function (err) {
+                (err === null).should.be.true;
                 done();
             })
         });
@@ -104,49 +118,9 @@ describe('Project', function () {
         });
     });
 
-    describe('Project#clean', function () {
-        before(function (done) {
-            pj.dropRepo(config.username, config.repo)
-            .then(function () {
-                done();
-            })
-            .catch(function () {
-                done();
-            })
-        });
-
-        it('should success', function (done) {
-            pj.createRepo()
-            .then(function () {
-                return Promise.resolve();
-            })
-            .then(function () {
-                return pj.clean();
-            })
-            .then(function () {
-                return pj.checkCreateEnv()
-            })
-            .then(function () {
-                done();;
-            })
-        });
-
-    });
-
-
     describe('Project#Action', function () {
 
-        before(function (done) {
-            pj.dropRepo(config.username, config.repo)
-            .then(function () {
-                done();
-            })
-            .catch(function () {
-                done();
-            })
-        });
-
-        after(function (done) {
+        beforeEach(function (done) {
             pj.dropRepo(config.username, config.repo)
             .then(function () {
                 done();
@@ -162,8 +136,8 @@ describe('Project', function () {
                 resp.login.should.equal(config.username);
                 done();
             })
-            .catch(function (e) {
-                console.log(e);
+            .catch(function (err) {
+                (err === null).should.be.true;
                 done();
             })
         });
@@ -174,8 +148,8 @@ describe('Project', function () {
                 resp.name.should.equal('fennudehexie.github.io');
                 done();
             })
-            .catch(function (e) {
-                console.log(e);
+            .catch(function (err) {
+                (err === null).should.be.true;
                 done();
             })
         });
@@ -185,7 +159,7 @@ describe('Project', function () {
             pj.genTpl()
             .then(function (resp) {
                 resp.deploy.type.should.equal('git');
-                resp.deploy.repo.should.equal('https://fennudehexie:youyudehexie123@github.com/fennudehexie/fennudehexie.github.io.git');
+                resp.deploy.repo.should.equal(`https://${config.username}:${config.password}@github.com/fennudehexie/${config.repo}.git`);
                 var files = fs.readdirSync(path);
                 files.should.containDeep(['_config.yml', 'package.json', 'scaffolds']);
                 return Promise.resolve();
@@ -195,55 +169,11 @@ describe('Project', function () {
                     done();
                 });
             })
-            .catch(function (e) {
-                console.log(e);
+            .catch(function (err) {
+                (err === null).should.be.true;
                 done();
             })
         });
         
-        it('projectmanager#create', function (done) {
-            var path = '/users/zhenfu/sandbox/hexo/';
-
-            pj.create(path)
-            .then(function () {
-                var options = {
-                    url: 'http://fennudehexie.github.io/',
-                };
-
-                request(options, function (err, resp, body) {
-                    if (err) return Promise.reject(err);
-                    /Hexo/.test(body).should.be.true;
-                    return Promise.resolve();
-                });
-            })
-            .then(function () {
-                exec(`rm -rf ${path}*`, function () {
-                    done();
-                });
-            })
-            .catch(function (e) {
-                console.log(e);
-                done();
-            })
-        });
-
-        it('projectmanager#buildEnv', function (done) {
-            var path = '/users/zhenfu/sandbox/hexo/';
-            pj.buildEnv(path)
-            .then(function (resp) {
-                var files = fs.readdirsync(path);
-                files.should.containdeep(['node_modules']);
-                return promise.resolve();
-            })
-            .then(function () {
-                exec(`rm -rf ${path}*`, function () {
-                    done();
-                });
-            })
-            .catch(function (e) {
-                console.log(e);
-                done();
-            })
-        });
     });
 });

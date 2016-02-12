@@ -81,14 +81,6 @@ Project.prototype = {
         var self = this;
         return self.checkFolder()
         .then(function () {
-            return self.checkCmd('/usr/local/bin/npm');
-        })
-        .then(function () {
-            const cmd = '/usr/local/bin/npm /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
-            return self.checkCmd(cmd);
-            //return self.checkCmd('hexo');
-        })
-        .then(function () {
             return new Promise(function (resolve, reject) {
                 self.checkRepo()
                 .then(function (resp) {
