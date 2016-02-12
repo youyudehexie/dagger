@@ -24,12 +24,12 @@ export default class Sidebar extends Component {
         const { projectId, pathname } = this.props;
         const items = [{
             key: 'workplace',
-            to: `/workplace/${projectId}`,
+            to: `//www.dagger.com/workplace/${projectId}`,
             active: /workplace/.test(pathname),
             icon: <EditIcon color={/workplace/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
         }, {
             key: 'settings',
-            to: `/settings/${projectId}`,
+            to: `//www.dagger.com/settings/${projectId}`,
             active: /settings/.test(pathname),
             icon: <SettingsIcon color={/settings/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
         }

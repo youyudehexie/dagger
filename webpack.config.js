@@ -41,7 +41,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    path: process.env.NODE_ENV === 'production' ? path.resolve(ROOT_PATH, 'api/public') : path.resolve(ROOT_PATH, 'app/build'),
+    path: process.env.NODE_ENV === 'production' ? path.resolve(ROOT_PATH, 'api/public') : path.resolve(ROOT_PATH, 'dagger/src/web_content'),
     publicPath: '/',
     filename: 'bundle.js'
   },

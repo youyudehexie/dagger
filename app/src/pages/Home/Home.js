@@ -16,7 +16,8 @@ import './Home.scss';
 
 
 import NativeRequire from '../../lib/NativeRequire';
-const BrowserWindow = NativeRequire('electron').BrowserWindow;
+const remote = NativeRequire('remote');
+const BrowserWindow = remote.BrowserWindow;
 
 
 export default class Home extends Component {
@@ -45,7 +46,8 @@ export default class Home extends Component {
             title: 'Dagger',
         });
 
-        win.loadURL(`http://127.0.0.1:9090/workplace/${id}`);
+        win.loadURL(`app://www.dagger.com/workplace/${id}`);
+        //win.loadURL(`http://127.0.0.1:9090/workplace/${id}`);
     };
 
     render() {

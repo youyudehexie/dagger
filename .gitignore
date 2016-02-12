@@ -6,3 +6,5 @@ node_modules/
 public/
 .deploy*/
 node_env/*
+app/build/*
+dagger/src/web_content/*

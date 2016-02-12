@@ -17,7 +17,8 @@ import Snackbar from 'material-ui/lib/snackbar';
 
 
 import NativeRequire from '../../lib/NativeRequire';
-const BrowserWindow = NativeRequire('electron').BrowserWindow;
+const remote = NativeRequire('remote');
+const BrowserWindow = remote.BrowserWindow;
 
 export default class Settings extends Component {
     constructor(props) {

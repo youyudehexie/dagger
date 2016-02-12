@@ -17,7 +17,7 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import './PJMenu.scss';
 
 import NativeRequire from '../../lib/NativeRequire';
-const dialog = NativeRequire('electron').dialog;
+const dialog = NativeRequire('remote').dialog;
 let timer;
 let dialogOpened = false;
 

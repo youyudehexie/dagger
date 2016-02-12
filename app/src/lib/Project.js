@@ -6,8 +6,8 @@ var spawn = NativeRequire('child_process').spawn;
 var Path = NativeRequire('path');
 var exec = NativeRequire('child_process').exec;
 var fs = NativeRequire('fs');
-var YAML = NativeRequire('yamljs');
 var JtoY = NativeRequire('json2yaml');
+var YtoJ = NativeRequire('js-yaml');
 var File = require('./File.js');
 
 var md5 = NativeRequire('md5');
@@ -180,24 +180,30 @@ Project.prototype = {
 
         return new Promise(function (resolve, reject) {
             exec(`${cmdPath} init`, {cwd: self.baseDir}, function (err, stdout, stderr) {
-                var settings = YAML.load(`${self.baseDir}/_config.yml`);
+                fs.readFile(`${self.baseDir}/_config.yml`, 'utf-8', function (err, content) {
+                    self.settings = YtoJ.safeLoad(content);
+                    console.log(self.settings)
 
-                Object.keys(settings).forEach((key) => {
-                    self.settings[key] = settings[key];
-                });
+                    //console.log('===========')
+                    //console.log(settings);
+                    //console.log('===========')
+                    //Object.keys(settings).forEach((key) => {
+                        //self.settings[key] = settings[key];
+                    //});
+                    self.settings['deploy']['repo'] = originRepo;
+                    self.settings['deploy']['type'] = 'git';
 
-                self.settings['deploy']['repo'] = originRepo;
-                self.settings['deploy']['type'] = 'git';
-                console.log(self.settings)
+                    fs.writeFile(
+                    `${self.baseDir}/_config.yml`, 
+                    JtoY.stringify(self.settings),
+                    'utf-8', 
+                    function (err) {
+                        if (err) return reject(err);
+                        return resolve(self.settings);
+                    });
+                
+                })
 
-                fs.writeFile(
-                `${self.baseDir}/_config.yml`, 
-                JtoY.stringify(self.settings),
-                'utf-8', 
-                function (err) {
-                    if (err) return reject(err);
-                    return resolve(self.settings);
-                });
             });
         });
     },

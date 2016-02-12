@@ -27,7 +27,9 @@ import './Workplace.scss';
 import Editor from '../../components/Editor/Editor';
 
 import NativeRequire from '../../lib/NativeRequire';
-const BrowserWindow = NativeRequire('electron').BrowserWindow;
+const remote = NativeRequire('remote');
+const BrowserWindow = remote.BrowserWindow;
+
 
 export default class Workplace extends Component {
 
