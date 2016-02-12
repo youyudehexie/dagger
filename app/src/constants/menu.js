@@ -7,11 +7,6 @@ export const MENU_TEMPLATE = [{
         role: 'undo'
       },
       {
-        label: 'Redo',
-        accelerator: 'Shift+CmdOrCtrl+Z',
-        role: 'redo'
-      },
-      {
         type: 'separator'
       },
       {
@@ -30,6 +25,13 @@ export const MENU_TEMPLATE = [{
         role: 'paste'
       },
       {
+        label: 'Flush Data',
+        accelerator: 'F11',
+        click() {
+          window.localStorage.setItem('dagger', '{}')
+        }
+      },
+      {
         label: 'Select All',
         accelerator: 'CmdOrCtrl+A', role: 'selectall'
       },
@@ -37,26 +39,12 @@ export const MENU_TEMPLATE = [{
   },
   {
     label: 'Edit',
-    submenu: [ {
-      label: 'Reload',
-      accelerator: 'CmdOrCtrl+R',
-      click: function(item, focusedWindow) {
-        if(focusedWindow) focusedWindow.reload()
-      }
-    },
+    submenu: [
     {
-        label: 'Toggle Developer Tools',
-        accelerator: (function() {
-          if (process.platform == 'darwin')
-            return 'Alt+Command+I';
-          else
-            return 'Ctrl+Shift+I';
-        })(),
-        click: function(item, focusedWindow) {
-          if (focusedWindow)
-            focusedWindow.toggleDevTools();
-        }
-    },
+        label: 'Close',
+        accelerator: 'Command+W',
+        selector: 'performClose:'
+    }
     ]
   },
   {

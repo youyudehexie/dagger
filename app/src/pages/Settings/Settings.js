@@ -18,7 +18,7 @@ import Snackbar from 'material-ui/lib/snackbar';
 
 import NativeRequire from '../../lib/NativeRequire';
 const remote = NativeRequire('remote');
-const BrowserWindow = remote.BrowserWindow;
+const shell = remote.shell;
 
 export default class Settings extends Component {
     constructor(props) {
@@ -60,13 +60,7 @@ export default class Settings extends Component {
 
     handleOpenBrowser = () => {
         const { project } = this.props;
-
-        var win = new BrowserWindow({ 
-            width: 800, 
-            height: 600,
-        });
-
-        win.loadURL(`http://${project.account.repo}?time=${Date.now()}`);
+        shell.openExternal(`http://${project.account.repo}?time=${Date.now()}`);
     };
 
     handleRequestClose = () => {

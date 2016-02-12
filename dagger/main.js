@@ -19,11 +19,9 @@ function initWindow() {
         title: 'Dagger',
     });
 
-    //mainWindow.loadURL('file:///Users/zhenfu/private/dagger/dagger/src/web_content/index.html')
     mainWindow.loadURL('app://www.dagger.com/')
     //mainWindow.loadURL('http://127.0.0.1:9090/')
     mainWindow.show();
-    mainWindow.openDevTools();
 }
 
 app.on('window-all-closed', function() {
@@ -31,24 +29,20 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-
     const protocol = require('protocol');
-
     protocol.registerFileProtocol('app', function(request, callback) {
-      let url = request.url;
-      let pathname = URL.parse(url).pathname;
-      let output;
-      const ext = path.extname(pathname)
+        let url = request.url;
+        let pathname = URL.parse(url).pathname;
+        let output;
+        const ext = path.extname(pathname)
 
-      if (!ext) {
-          output  = '/Users/zhenfu/private/dagger/dagger/src/web_content/index.html';
-            //callback({path: '/Users/zhenfu/private/dagger/dagger/src/web_content/index.html'});
-      } else {
-          let filename = url.split('/').slice(-1)[0]
-          output = '/Users/zhenfu/private/dagger/dagger/src/web_content/' + filename;
-      }
+        if (!ext) {
+            output = `${__dirname}/src/web_content/index.html`;
+        } else {
+            let filename = url.split('/').slice(-1)[0]
+            output = `${__dirname}/src/web_content/${filename}`;
+        }
 
-        console.log(url, output)
         callback({path: output});
     }, function (error, resp) {
         console.log(resp)

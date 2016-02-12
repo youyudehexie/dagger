@@ -36,8 +36,7 @@ File.prototype.load = function () {
 
 File.prototype.newPost = function (title) {
     var self = this;
-
-    var cmdPath = '/usr/local/bin/node /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
+    var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
 
     return Promise.all([
         self.runCmd(`${cmdPath} new '${title}'`, {cwd: self.path}),
@@ -46,8 +45,8 @@ File.prototype.newPost = function (title) {
 }
 
 File.prototype.generate = function () {
-    var cmdPath = '/usr/local/bin/node /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
     var self = this;
+    var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
     return self.runCmd(`${cmdPath} generate`, {cwd: self.path});
 }
 
@@ -55,7 +54,7 @@ File.prototype.deploy = function () {
     var self = this;
     return self.generate()
     .then(function () {
-        var cmdPath = '/usr/local/bin/node /Applications/Dagger.app/Contents/Resources/app/node_modules/hexo/bin/hexo'
+        var cmdPath = '/usr/local/bin/node ./node_modules/hexo/bin/hexo'
         return self.runCmd(`${cmdPath} deploy`, {cwd: self.path});
     })
 }
