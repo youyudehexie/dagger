@@ -59,7 +59,7 @@ export default class Workplace extends Component {
 
     handleEditPost = (post, contentText, contentHtml) => {
         const { project } = this.props;
-        return this.props.projectActions.editPost(project, post, contentText, contentHtml);
+        return this.props.projectActions.editPost(project, post, contentText);
     };
 
     handlePublish = () => {
@@ -99,15 +99,15 @@ export default class Workplace extends Component {
             <TopNav title={project.account.repo}/>
             <div className="main">
                 <Sidebar projectId={id} pathname={pathname} onOpenBrowser={this.handleOpenBrowser}/>
-                <Timeline 
-                    posts={posts} 
+                <Timeline
+                    posts={posts}
                     onReadPost={this.handleReadPost}
-                    onNewPost={this.handleNewPost} 
+                    onNewPost={this.handleNewPost}
                 />
-                <Editor 
-                    post={post} 
+                <Editor
+                    post={post}
                     publish={project.publishing}
-                    onEditPost={this.handleEditPost} 
+                    onEditPost={this.handleEditPost}
                     onPublish={this.handlePublish}
                 />
                 <Snackbar
@@ -121,5 +121,5 @@ export default class Workplace extends Component {
         </div>
         );
     }
-} 
+}
 

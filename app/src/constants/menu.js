@@ -44,7 +44,20 @@ export const MENU_TEMPLATE = [{
         label: 'Close',
         accelerator: 'Command+W',
         selector: 'performClose:'
-    }
+    },
+    {
+        label: 'Toggle Developer Tools',
+        accelerator: (function() {
+          if (process.platform == 'darwin')
+            return 'Alt+Command+I';
+          else
+            return 'Ctrl+Shift+I';
+        })(),
+        click: function(item, focusedWindow) {
+          if (focusedWindow)
+            focusedWindow.toggleDevTools();
+        }
+    },
     ]
   },
   {

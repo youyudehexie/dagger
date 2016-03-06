@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import ContentEditable from '../../components/Contenteditable/Contenteditable'
+import ACEditor from '../ACEditor/ACEditor';
 import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
 import ActionHome from 'material-ui/lib/svg-icons/action/home';
@@ -26,20 +27,19 @@ export default class Editor extends Component {
         }
     }
 
-    handleChange = (evt) => {
-        const { post } = this.props;
-        contentText = evt.target.text;
-        contentHtml = evt.target.value;
+    handleChange = (value) => {
+      console.log('handle change.')
+      contentText = value;
 
-        if (timer) {
-            clearTimeout(timer);
-            timer = null;
-        }
+      if (timer) {
+          clearTimeout(timer);
+          timer = null;
+      }
 
-        timer = setTimeout(() => {
-            const { post } = this.props;
-            this.props.onEditPost(post, contentText, contentHtml);
-        }, 100);
+      timer = setTimeout(() => {
+          const { post } = this.props;
+          this.props.onEditPost(post, contentText);
+      }, 1000);
     };
 
     handlePublish = () => {
@@ -48,7 +48,6 @@ export default class Editor extends Component {
 
     render() {
         const { title, raw, rawPost} = this.props.post;
-        let content = rawPost && rawPost.replace(/\n/g, '</br>') || '';
 
         let flBtn;
         if (this.props.publish) {
@@ -65,8 +64,8 @@ export default class Editor extends Component {
         } else {
             flBtn = (
             <div className="editor__publish">
-                <FloatingActionButton 
-                    mini={true} 
+                <FloatingActionButton
+                    mini={true}
                     disabled={this.props.publish}
                     onClick={this.handlePublish}
                 >
@@ -76,17 +75,19 @@ export default class Editor extends Component {
             )
         }
 
+            // <ContentEditable
+                // className="editor__box"
+                // html={content} // innerHTML of the editable div
+                // disabled={false}       // use true to disable edition
+                // onChange={this.handleChange} // handle innerHTML change
+            // />
+
         return (
         <div className="editor">
             {flBtn}
-            <ContentEditable
-                className="editor__box"
-                html={content} // innerHTML of the editable div
-                disabled={false}       // use true to disable edition
-                onChange={this.handleChange} // handle innerHTML change
-            />
+            <ACEditor value={rawPost} onChange={this.handleChange}></ACEditor>
         </div>
         );
     }
-} 
+}
 

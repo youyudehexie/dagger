@@ -19,8 +19,8 @@ function initWindow() {
         title: 'Dagger',
     });
 
-    mainWindow.loadURL('app://www.dagger.com/')
-    //mainWindow.loadURL('http://127.0.0.1:9090/')
+    mainWindow.loadURL('app://www.dagger.com/');
+    mainWindow.loadURL('http://127.0.0.1:9090/')
     mainWindow.show();
 }
 

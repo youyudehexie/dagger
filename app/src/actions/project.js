@@ -105,13 +105,13 @@ export function newPost(project, title) {
 
 }
 
-export function editPost(project, post, contentText, contentHtml) {
+export function editPost(project, post, contentText) {
     return (dispatch, getState) => {
         const target = project.account.target;
         const resources = project.resources;
         const file = new File(target);
         const { source } = post;
-        resources.rawPost[source] = contentHtml;
+        resources.rawPost[source] = contentText;
 
         async function process() {
             try {

@@ -6,8 +6,13 @@ import Writer from './containers/Writer';
 import Settings from './containers/Settings';
 import Home from './containers/Home';
 
+const HOST = process.env.NODE_ENV === 'production' ? '//www.dagger.com/' : '/'
+console.log('-------------')
+console.log(HOST);
+console.log('-------------')
+
 export default (
-  <Route path="//www.dagger.com/" component={App}>
+  <Route path={`${HOST}`} component={App}>
     <IndexRoute component={Home} />
     <Route path="writer" component={Writer} />
     <Route path="workplace/:id" component={Workplace} />

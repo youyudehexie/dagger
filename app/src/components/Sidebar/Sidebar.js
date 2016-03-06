@@ -22,14 +22,17 @@ export default class Sidebar extends Component {
 
     render() {
         const { projectId, pathname } = this.props;
+        const HOST = process.env.NODE_ENV === 'production' ? '//www.dagger.com' : ''
+        console.log(HOST);
+
         const items = [{
             key: 'workplace',
-            to: `//www.dagger.com/workplace/${projectId}`,
+            to: `${HOST}/workplace/${projectId}`,
             active: /workplace/.test(pathname),
             icon: <EditIcon color={/workplace/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
         }, {
             key: 'settings',
-            to: `//www.dagger.com/settings/${projectId}`,
+            to: `${HOST}/settings/${projectId}`,
             active: /settings/.test(pathname),
             icon: <SettingsIcon color={/settings/.test(pathname) ? Colors.blue500 : Colors.grey500}/>,
         }
@@ -42,8 +45,8 @@ export default class Sidebar extends Component {
                 items.map((item) => {
                     return (
                     <div key={item.key}>
-                        <Link 
-                            to={item.to} 
+                        <Link
+                            to={item.to}
                             className={`sidebar__item ${item.active ? 'sidebar__item_active': ''}`}>
                             {item.icon}
                         </Link>
@@ -58,5 +61,5 @@ export default class Sidebar extends Component {
         </div>
         );
     }
-} 
+}
 

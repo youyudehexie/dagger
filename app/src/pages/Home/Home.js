@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router'
 
-import List from 'material-ui/lib/lists/list'; 
+import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 import Avatar from 'material-ui/lib/avatar';
@@ -39,14 +39,17 @@ export default class Home extends Component {
     };
 
     handleClick = (id) => {
-        var win = new BrowserWindow({ 
-            width: 800, 
+        var win = new BrowserWindow({
+            width: 800,
             height: 600,
             frame: false,
             title: 'Dagger',
         });
 
-        win.loadURL(`app://www.dagger.com/workplace/${id}`);
+        const HOST = process.env.NODE_ENV === 'production' ? 'app://www.dagger.com' : 'http://127.0.0.1:9090'
+        console.log(`${HOST}/workplace/${id}`)
+
+        win.loadURL(`${HOST}/workplace/${id}`);
         //win.loadURL(`http://127.0.0.1:9090/workplace/${id}`);
     };
 
@@ -63,9 +66,9 @@ export default class Home extends Component {
                     Projects.map((project) => {
                         return (
                         <div className="pj__item" key={project.id}>
-                            <ListProgress 
+                            <ListProgress
                                 progressCls="pj__progress"
-                                max={project.flow.max} 
+                                max={project.flow.max}
                                 value={project.flow.value}
                             />
 
@@ -83,5 +86,5 @@ export default class Home extends Component {
         </div>
         );
   }
-} 
+}
 
